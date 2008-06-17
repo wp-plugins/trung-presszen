@@ -3,7 +3,7 @@
 Plugin Name: trung_presszen
 Plugin URI: http://trunghuynh.com
 Description: Extension for integrate zenphoto into wordpress
-Version: 0.2
+Version: 0.9
 Author: Trung Huynh
 Author URI: http://trunghuynh.com
 Tags: zenphoto
@@ -170,13 +170,13 @@ function trung_presszen_conf()
 	$zenpath=get_option("trung_presszen_zenpath");
 
 	$galleryslug=get_option("trung_presszen_slug");
-
+	$clean_uri = preg_replace("/&(delete|enable|disable)=[a-z]{2}/i","",$_SERVER['REQUEST_URI']);
 	echo
 
 	<<<EOF
 <div class="wrap">
 <h2>Trung_PressZen Configuration</h2>
-<form id="conf" method="post" action="/wp/wp-admin/plugins.php?page=trung_presszen">
+<form id="conf" method="post" action="{$clean_uri}">
 
     <table class="form-table">
         <tbody><tr valign="top">
