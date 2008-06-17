@@ -4,9 +4,10 @@ Donate link: http://trunghuynh.com/
 Tags: images, zenphoto, gallery
 Requires at least: 2.2
 Tested up to: 2.5
+Stable tag: trunk
 
 
-This is an extension for Wordpress to integrate ZenPhoto into your Wordpress installation. It required ZenPhoto installed on the same server and very easy to install (thanks to Wordpress easy plug-in system).
+This is an extension for Wordpress to integrate ZenPhoto into your Wordpress installation.
 == Description ==
 This is an extension for Wordpress to integrate ZenPhoto into your Wordpress installation. It required ZenPhoto installed on the same server and very easy to install (thanks to Wordpress easy plug-in system).
 
@@ -73,6 +74,3 @@ Ordered list:
 
 1. Zenphoto integration
 1. lastest photos widget
-
-> Asterisks for *emphasis*. Double it up  for **strong**.
-
