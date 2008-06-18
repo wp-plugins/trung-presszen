@@ -1,9 +1,9 @@
 <?php // encoding: utf-8
 /*
-Plugin Name: trung_presszen
+Plugin Name: PressZen - ZenPhoto + Wordpress integration
 Plugin URI: http://trunghuynh.com
 Description: Extension for integrate zenphoto into wordpress
-Version: 0.9
+Version: 0.9.2
 Author: Trung Huynh
 Author URI: http://trunghuynh.com
 Tags: zenphoto
@@ -28,12 +28,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 if (!is_admin())
 {
 	add_filter('request', 'trung_presszen_handle_album', 0);
+	if (!defined('TRUNG_PRESSZEN_INIT'))
+	{
+		trung_presszen_galleryinit();
+	}
 }
 add_action('admin_menu',                    'trung_presszen_config_page');
-if (!defined('TRUNG_PRESSZEN_INIT'))
-{
-	trung_presszen_galleryinit();
-}
+
 function trung_presszen_header()
 {
 
@@ -165,6 +166,7 @@ function trung_presszen_conf()
 		$conf['trung_presszen_slug'] = $_POST['galleryslug'];
 		trung_presszen_saveConfig($conf);
 		echo "Configuration saved";
+
 	}
 
 	$zenpath=get_option("trung_presszen_zenpath");
@@ -284,7 +286,7 @@ function trung_presszen_galleryexec()
 	else
 	{
 		require_once("gallery/gallery_index.php");
-	}		
+	}
 }
 
 
@@ -292,12 +294,12 @@ function widget_trung_zenlatest_init() {
 	if (!function_exists('register_sidebar_widget')) return;
 
 	function widget_trung_zenlatest($args) {
-		
+
 		extract($args);
 
 		trung_presszen_latest();
 	}
-	
+
 	register_sidebar_widget('trung_zenlatest', 'widget_trung_zenlatest');
 }
 
