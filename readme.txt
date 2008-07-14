@@ -7,17 +7,22 @@ Tested up to: 2.5
 Stable tag: trunk
 
 
-This is an extension for Wordpress to integrate ZenPhoto into your Wordpress installation.
+This is an extension for Wordpress to integrate ZenPhoto into your Wordpress installation. INSTRUCTION CHANGED FOR ZP 1.1.7
 == Description ==
 This is an extension for Wordpress to integrate ZenPhoto into your Wordpress installation. It required ZenPhoto installed on the same server and very easy to install (thanks to Wordpress easy plug-in system).
+ver 0.9.4 : 
+- fix error when misconfigured the path of ZP.
+- Pagination
+- Installation instruction for ZP 1.1.7
 
+ ATTENTION : FROM VERSION 1.1.7 OF ZENPHOTO, STEP 2 ARE NOLONGER REQUIRED, SKIP IT IF YOUR ZP VERSION > 1.1.7 
 == Installation ==
 This is an extension for Wordpress to integrate ZenPhoto into your Wordpress installation. It required ZenPhoto installed on the same server and very easy to install (thanks to Wordpress easy plug-in system).
 
 There is one minor conflict in 2 systems in gettext functions, you will have to modify 2 lines of code in Zenphoto to make this work. No danger at all.
 
 Installation :
-
+ ATTENTION : FROM VERSION 1.1.7 OF ZENPHOTO, STEP 2 ARE NOLONGER REQUIRED, SKIP IT IF YOUR ZP VERSION > 1.1.7 
 1. Download the zip file and extract to Wordpress plug-in directory.
 
 2. Edit {ZENPHOTO}/zp-core/lib-gettext/gettext.inc

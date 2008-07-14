@@ -1,9 +1,11 @@
 <?php // encoding: utf-8
 /*
-Plugin Name: PressZen - ZenPhoto + Wordpress integration
+Plugin Name: trung_presszen
 Plugin URI: http://trunghuynh.com
-Description: Extension for integrate zenphoto into wordpress
-Version: 0.9.2
+Description: Extension for integrate zenphoto into wordpress, tested with ZenPhoto 1.1.7
+
+Version: 0.9.4
+
 Author: Trung Huynh
 Author URI: http://trunghuynh.com
 Tags: zenphoto
@@ -28,13 +30,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 if (!is_admin())
 {
 	add_filter('request', 'trung_presszen_handle_album', 0);
-	if (!defined('TRUNG_PRESSZEN_INIT'))
-	{
-		trung_presszen_galleryinit();
-	}
 }
 add_action('admin_menu',                    'trung_presszen_config_page');
-
+if (!defined('TRUNG_PRESSZEN_INIT'))
+{
+	trung_presszen_galleryinit();
+}
 function trung_presszen_header()
 {
 
@@ -64,6 +65,7 @@ function trung_presszen_handle_album($request)
 		if (strlen($requested_gallery) > 0 )
 		{
 			define("ZENALBUM", $requested_gallery);
+
 			if (isset($request['paged']))
 			{
 				//tricky : ZP asked for GET, we give em GET
@@ -148,6 +150,7 @@ function process_input ($path)
 		$ralbum = $path;
 		$rimage = null;
 	}
+
 	return array($ralbum, $rimage);
 }
 
@@ -166,19 +169,18 @@ function trung_presszen_conf()
 		$conf['trung_presszen_slug'] = $_POST['galleryslug'];
 		trung_presszen_saveConfig($conf);
 		echo "Configuration saved";
-
 	}
 
 	$zenpath=get_option("trung_presszen_zenpath");
 
 	$galleryslug=get_option("trung_presszen_slug");
-	$clean_uri = preg_replace("/&(delete|enable|disable)=[a-z]{2}/i","",$_SERVER['REQUEST_URI']);
+
 	echo
 
 	<<<EOF
 <div class="wrap">
 <h2>Trung_PressZen Configuration</h2>
-<form id="conf" method="post" action="{$clean_uri}">
+<form id="conf" method="post" action="./plugins.php?page=trung_presszen">
 
     <table class="form-table">
         <tbody><tr valign="top">
@@ -230,8 +232,15 @@ function trung_presszen_galleryinit()
 		$path = get_option("trung_presszen_zenpath");
 		{ define('WEBPATH', "/gallery"); }
 		if (!defined('ZENFOLDER')) { define('ZENFOLDER', 'zp-core'); }
-
-		require_once($path."/".ZENFOLDER . "/template-functions.php");
+		if (file_exists($path."/".ZENFOLDER . "/template-functions.php"))
+		{
+			require_once($path."/".ZENFOLDER . "/template-functions.php");
+		}
+		else
+		{
+			echo "options 'trung_presszen_zenpath' mismatch !!!!";
+			return;
+		}
 		//setupTheme();
 
 		//	load extensions
@@ -269,11 +278,17 @@ function trung_presszen_galleryinit()
 function trung_presszen_galleryexec()
 {
 
-	global $_zp_current_image,  $_zp_gallery, $_zp_dynamic_album, $_zp_current_album, $_zp_current_search,$_zp_conf_vars, $_zp_supported_videos, $post;
+	global $_zp_current_image,  $_zp_gallery, $_zp_dynamic_album, $_zp_current_album, $_zp_current_search,$_zp_conf_vars, $_zp_supported_videos, $post, $_zp_page, $_zp_gallery_albums_per_page;
+
 
 	$pageurl =  get_page_uri($post->ID);
 	$site = get_option("siteurl");
 	define("TRUNGPRESSZEN_URL", $site."/".$pageurl);
+
+	if (isset($_GET['page']))
+	{
+		$_zp_page = $_GET['page'];
+	}
 	if (in_context((ZP_IMAGE)))
 	{
 		require_once("gallery/image.php");
@@ -285,6 +300,7 @@ function trung_presszen_galleryexec()
 	}
 	else
 	{
+		$_zp_page = 0;
 		require_once("gallery/gallery_index.php");
 	}
 }
@@ -305,6 +321,7 @@ function widget_trung_zenlatest_init() {
 
 function trung_presszen_latest()
 {
+
 	include_once("trung_zenlatest.php");
 }
 
